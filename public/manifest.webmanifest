@@ -1,0 +1,22 @@
+{
+  "name": "Walk the Block",
+  "short_name": "Walk the Block",
+  "description": "Score a house photo for visible distress and keep the lead list on your phone.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#12151c",
+  "theme_color": "#12151c",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
