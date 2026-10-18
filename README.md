@@ -21,6 +21,14 @@ Demo mode is the default. Four public-domain or CC0 house photos are built in, w
 
 Your own photos are refused in Demo mode. They are not uploaded and not saved.
 
+## Screenshots
+
+![Snap a house or try a sample](docs/screenshots/snap.png)
+
+![A sample reading and the postcard](docs/screenshots/reading.png)
+
+![Leads stay on the phone](docs/screenshots/leads.png)
+
 ## Run it locally
 
 ```bash
@@ -29,7 +37,7 @@ npm test
 npm run dev
 ```
 
-Open [http://localhost:5173/walk-the-block/](http://localhost:5173/walk-the-block/). The base path matches the GitHub Pages project site.
+Open [http://localhost:5173/](http://localhost:5173/). The Vite base path defaults to `/`, which is also what Cloudflare serves. Set `VITE_BASE` if you ever need a subpath build.
 
 ```bash
 npm run build
@@ -57,7 +65,7 @@ OLLAMA_HOST=0.0.0.0:11434 OLLAMA_ORIGINS=* ollama serve
 npm run dev -- --host
 ```
 
-On the phone, open `http://<laptop-ip>:5173/walk-the-block/` and set the Ollama address to `http://<laptop-ip>:11434`.
+On the phone, open `http://<laptop-ip>:5173/` and set the Ollama address to `http://<laptop-ip>:11434`.
 
 iPhone Safari blocks an `http://` Ollama call from an `https://` page. Run the app itself over http on the LAN, as above. Do not forward port 11434 to the public internet. The request contains the photo and the scoring prompt only. Address, notes, and the GPS pin stay in the browser.
 
@@ -73,15 +81,20 @@ This mode sends the photo to Google. It does not send the address, notes, or pin
 
 If a photo comes back cut off or unreadable, try again or switch between `gemma-4-31b-it` and `gemma-3-27b-it`. Gemma does not use a separate system role here. The instructions are the first user turn, and the reply is parsed even when it is wrapped in prose or a code fence.
 
-## Pages
+## Deploy (Cloudflare Workers)
 
-The workflow [`.github/workflows/pages.yml`](.github/workflows/pages.yml) builds and deploys to GitHub Pages on every push to `main`.
+The site is static. [wrangler.jsonc](wrangler.jsonc) publishes the Vite `dist` folder as Workers static assets, with single-page fallback, under the worker name `walk-the-block`. The repo can stay private. There is no GitHub Pages workflow.
 
-One-time setup, if the site is not live yet:
+From Windows PowerShell, with `CLOUDFLARE_API_TOKEN` already set in the environment (the same token used for other Workers). Wrangler reads that variable. This does not run `wrangler login` and does not open a browser.
 
-1. On GitHub, open **Settings → Pages**.
-2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
-3. Merge to `main`. The workflow publishes to `https://casmazariegos.github.io/walk-the-block/`.
+```powershell
+npm.cmd install
+npm.cmd run cf:deploy
+```
+
+`cf:deploy` typechecks, runs `vite build --base /`, then `wrangler deploy`. The account id in `wrangler.jsonc` is the same Cloudflare account as MERA, so deploy does not ask you to pick an account.
+
+When it finishes, the app is at [https://walk-the-block.casmazariegos.workers.dev](https://walk-the-block.casmazariegos.workers.dev).
 
 ## Tests, and what was not run live
 

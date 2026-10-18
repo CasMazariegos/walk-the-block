@@ -18,7 +18,7 @@ Who would pay: wholesalers and small investors who already pay for driving-for-d
 
 ## Demo
 
-https://casmazariegos.github.io/walk-the-block/
+https://walk-the-block.casmazariegos.workers.dev
 
 Demo mode needs no key. Tap one of the four public-domain sample houses, read the score, switch the postcard to Spanish, and open Leads. Those sample scores are hand-labeled so the demo works offline. They are marked as such in the app. Scoring your own photo needs either Ollama or your own AI Studio key.
 
@@ -28,7 +28,7 @@ https://github.com/CasMazariegos/walk-the-block
 
 ## How I Built It
 
-A static Vite + React + TypeScript app, deployed with GitHub Actions to GitHub Pages. No server.
+A static Vite + React + TypeScript app, deployed to Cloudflare Workers static assets (`npm run cf:deploy`, base path `/`). No app server. The repo can stay private.
 
 One interface, two Gemma backends:
 
