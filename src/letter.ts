@@ -116,7 +116,7 @@ export function composeLetter(lang: LetterLang, profile: BuyerProfile, address: 
     return [
       'Hola,',
       '',
-      `Me llamo ${data.name}. Soy comprador local en ${data.city}. Si algún día decide vender ${data.propertyEs}, me gustaría hacerle una oferta justa y conversarlo con usted.`,
+      `Me llamo ${data.name}. Compro casas aquí en ${data.city}. Si algún día decide vender ${data.propertyEs}, me gustaría hacerle una oferta justa y conversarlo con usted.`,
       '',
       `No hay presión ni una fecha para responder. Si no le interesa, puede ignorar esta nota. Si quiere hablar, puede llamarme o enviarme un mensaje de texto al ${data.phone} cuando le quede conveniente.`,
       '',
