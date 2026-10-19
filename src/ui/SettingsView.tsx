@@ -157,7 +157,7 @@ export function SettingsView({ settings, apiKey, onSettings, onApiKey }: Props) 
             </datalist>
           </label>
           <p className="fine">
-            Default is gemma-4-31b-it, which accepts images. If a photo is refused, switch to gemma-3-27b-it. The key
+            Default is gemma-4-31b-it, which accepts images. If a photo is refused, switch to gemma-4-26b-a4b-it. The key
             is sent only as a header to Google and is never written into the repo.
           </p>
           <button type="button" className="btn ghost" disabled={checking} onClick={() => void runStudioTest()}>

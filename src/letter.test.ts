@@ -61,4 +61,16 @@ describe('letters', () => {
     expect(resolved.es).toContain('951-555-0134')
     expect(resolved.note).toBe('')
   })
+
+  it('matches whole words, so ordinary Spanish and English drafts are kept', () => {
+    const pad = ' Llame cuando guste, no hay ninguna prisa para responder.'
+    expect(passesCompliance('Sin embargo, no hay presión.' + pad)).toBe(true)
+    expect(passesCompliance('Soy un ciudadano local de Hemet.' + pad)).toBe(true)
+    expect(passesCompliance('I treat every seller like a client and a neighbor, with no pressure.')).toBe(true)
+    expect(passesCompliance('La casa tiene un embargo y debe vender pronto.' + pad)).toBe(false)
+    expect(passesCompliance('We can close fast even with liens on the title, no pressure at all.')).toBe(false)
+    expect(passesCompliance('Evite la ejecución hipotecaria, llame hoy mismo a este número.')).toBe(false)
+    expect(passesCompliance('I saw the house was abandoned and would buy it from you today.')).toBe(false)
+    expect(passesCompliance('This is URGENT, please call me back about your home this week.')).toBe(false)
+  })
 })

@@ -69,9 +69,11 @@ On the phone, open `http://<laptop-ip>:5173/` and set the Ollama address to `htt
 
 iPhone Safari blocks an `http://` Ollama call from an `https://` page. Run the app itself over http on the LAN, as above. Do not forward port 11434 to the public internet. The request contains the photo and the scoring prompt only. Address, notes, and the GPS pin stay in the browser.
 
+One optional exception: **Look up street** sends the GPS pin (only the pin) to OpenStreetMap's Nominatim service to fill in a street name. Skip that button and the pin never leaves the phone.
+
 ## AI Studio
 
-Hosted vision default: **`gemma-4-31b-it`** (Gemma 4, image input documented by Google). Also listed in Settings: `gemma-4-26b-a4b-it`, `gemma-3-27b-it`, `gemma-3-12b-it`, `gemma-3-4b-it`. Image input for Gemma 3 on the Gemini API has been available since May 2025. `gemma-3-1b-it` is text-only.
+Hosted vision default: **`gemma-4-31b-it`** (Gemma 4, image input documented by Google). Also listed in Settings: `gemma-4-26b-a4b-it`. Google's [Gemma on the Gemini API](https://ai.google.dev/gemma/docs/core/gemma_on_gemini_api) page lists these two Gemma 4 ids, and Gemma 4 accepts images. Gemma 3 is still the default for Ollama.
 
 1. Create a key in [Google AI Studio](https://aistudio.google.com/apikey).
 2. Settings → AI Studio → paste the key. It is stored in `localStorage` under `wtb-aistudio-key` and sent only as the `x-goog-api-key` header.
@@ -79,11 +81,11 @@ Hosted vision default: **`gemma-4-31b-it`** (Gemma 4, image input documented by 
 
 This mode sends the photo to Google. It does not send the address, notes, or pin. There is no key in this repository.
 
-If a photo comes back cut off or unreadable, try again or switch between `gemma-4-31b-it` and `gemma-3-27b-it`. Gemma does not use a separate system role here. The instructions are the first user turn, and the reply is parsed even when it is wrapped in prose or a code fence.
+If a photo comes back cut off or unreadable, try again or switch between `gemma-4-31b-it` and `gemma-4-26b-a4b-it`. Gemma does not use a separate system role here. The instructions are the first user turn, and the reply is parsed even when it is wrapped in prose or a code fence.
 
 ## Deploy (Cloudflare Workers)
 
-The site is static. [wrangler.jsonc](wrangler.jsonc) publishes the Vite `dist` folder as Workers static assets, with single-page fallback, under the worker name `walk-the-block`. The repo can stay private. There is no GitHub Pages workflow.
+The site is static. [wrangler.jsonc](wrangler.jsonc) publishes the Vite `dist` folder as Workers static assets, with single-page fallback, under the worker name `walk-the-block`. There is no GitHub Pages workflow.
 
 From Windows PowerShell, with `CLOUDFLARE_API_TOKEN` already set in the environment (the same token used for other Workers). Wrangler reads that variable. This does not run `wrangler login` and does not open a browser.
 

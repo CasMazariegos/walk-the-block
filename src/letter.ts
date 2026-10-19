@@ -15,6 +15,7 @@ const BANNED = [
   'desperate',
   'urgent',
   'urgency',
+  'urgen',
   'act now',
   'limited time',
   'last chance',
@@ -52,7 +53,6 @@ const BANNED = [
   'ejecuci',
   'hipoteca',
   'embargo',
-  'urgente',
   'apúrate',
   'apurate',
   'techo',
@@ -66,10 +66,26 @@ const BANNED = [
   'dano',
 ]
 
+// Stems that should also match longer words (ejecución, abandoned, abandonada).
+const STEMS = new Set(['ejecuci', 'abandon', 'urgen'])
+
+function escapeRegex(text: string): string {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+// Whole words only, so "client" does not trip "lien" and "ciudadano" does not trip "dano".
+// Plain words also catch a plural ending (liens, deudas).
+const BANNED_PATTERNS = BANNED.map((phrase) => {
+  const body = escapeRegex(phrase).replace(/ /g, '\\s+')
+  const tail = STEMS.has(phrase) ? '' : '(?:s|es)?(?![\\p{L}\\p{N}])'
+  return new RegExp(`(?<![\\p{L}\\p{N}])${body}${tail}`, 'iu')
+})
+
 export function passesCompliance(text: string): boolean {
-  const folded = text.toLowerCase()
+  // "Sin embargo" means "however" in Spanish. It is not about a lien.
+  const folded = text.toLowerCase().replace(/sin\s+embargo/g, ' ')
   if (folded.trim().length < 40) return false
-  return !BANNED.some((phrase) => folded.includes(phrase))
+  return !BANNED_PATTERNS.some((pattern) => pattern.test(folded))
 }
 
 function fill(template: string, values: Record<string, string>): string {

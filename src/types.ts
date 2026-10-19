@@ -37,7 +37,10 @@ export interface Lead {
   letterEn: string
   letterEs: string
   letterSource: LetterSource
+  /** You edited the English note. Older leads used this for either language. */
   letterDirty: boolean
+  /** You edited the Spanish note. Missing on older leads, which fall back to letterDirty. */
+  letterDirtyEs?: boolean
   letterNote: string
   status: LeadStatus
   backend: BackendId

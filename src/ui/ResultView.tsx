@@ -24,7 +24,8 @@ export function ResultView({ lead, lang, onLang, onPatch, onStandard, onDelete, 
   const tone = scoreTone(lead.score)
   const found = presentSignals(lead.signals)
   const missed = lead.signals.filter((signal) => !signal.present)
-  const sourceLabel = lead.letterDirty ? 'Your edit' : lead.letterSource === 'model' ? "Gemma's note" : 'Standard note'
+  const dirty = lang === 'es' ? (lead.letterDirtyEs ?? lead.letterDirty) : lead.letterDirty
+  const sourceLabel = dirty ? 'Your edit' : lead.letterSource === 'model' ? "Gemma's note" : 'Standard note'
 
   useEffect(() => {
     setAddress(lead.address)
@@ -124,7 +125,7 @@ export function ResultView({ lead, lang, onLang, onPatch, onStandard, onDelete, 
           onChange={(event) => setLetter(event.target.value)}
           onBlur={() => {
             if (letter === (lang === 'es' ? lead.letterEs : lead.letterEn)) return
-            onPatch(lang === 'es' ? { letterEs: letter, letterDirty: true } : { letterEn: letter, letterDirty: true })
+            onPatch(lang === 'es' ? { letterEs: letter, letterDirtyEs: true } : { letterEn: letter, letterDirty: true })
           }}
         />
         <p className="fine">This note does not mention the photo. You can edit it before you copy it.</p>

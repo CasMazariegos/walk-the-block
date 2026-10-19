@@ -122,7 +122,7 @@ export async function completeStudio(options: {
       const detail = await errorText(response, key)
       if (response.status === 400 && /image input modality/i.test(detail)) {
         throw new AnalyzeError(
-          `${model} refused the photo. Switch the AI Studio model to gemma-4-31b-it or gemma-3-27b-it.`,
+          `${model} refused the photo. Switch the AI Studio model to gemma-4-31b-it or gemma-4-26b-a4b-it.`,
         )
       }
       if (response.status === 400 && /api key/i.test(detail)) {

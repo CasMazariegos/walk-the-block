@@ -33,9 +33,6 @@ Shape:
 export const STUDIO_MODELS = [
   'gemma-4-31b-it',
   'gemma-4-26b-a4b-it',
-  'gemma-3-27b-it',
-  'gemma-3-12b-it',
-  'gemma-3-4b-it',
 ] as const
 
 export const OLLAMA_MODELS = ['gemma3:4b', 'gemma3:12b', 'gemma3:27b', 'gemma4:e4b'] as const

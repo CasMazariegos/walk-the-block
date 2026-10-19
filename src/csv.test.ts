@@ -49,4 +49,11 @@ describe('leadsToCsv', () => {
     expect(csv).toContain('New')
     expect(csv).toContain('2026-10-18T20:00:00.000Z')
   })
+
+  it('neutralizes text that would run as a spreadsheet formula, but keeps negative numbers', () => {
+    const csv = leadsToCsv([lead({ address: '=HYPERLINK("http://x")', notes: '@cmd' })])
+    expect(csv).toContain(`"'=HYPERLINK(""http://x"")"`)
+    expect(csv).toContain("'@cmd")
+    expect(csv).toContain(',-116.9719,')
+  })
 })

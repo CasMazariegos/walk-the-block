@@ -102,6 +102,7 @@ export function App() {
       letterEs: letters.es,
       letterSource: 'template',
       letterDirty: false,
+      letterDirtyEs: false,
       letterNote: '',
       status: 'new',
       backend: 'demo',
@@ -265,11 +266,12 @@ export function App() {
     const current = leads.find((lead) => lead.id === id)
     if (!current) return
     let next: Lead = { ...current, ...patch, updatedAt: Date.now() }
-    if (refreshLetter && !next.letterDirty && next.letterSource === 'template') {
+    if (refreshLetter && next.letterSource === 'template') {
+      const dirtyEs = next.letterDirtyEs ?? next.letterDirty
       next = {
         ...next,
-        letterEn: composeLetter('en', settings.buyer, next.address),
-        letterEs: composeLetter('es', settings.buyer, next.address),
+        letterEn: next.letterDirty ? next.letterEn : composeLetter('en', settings.buyer, next.address),
+        letterEs: dirtyEs ? next.letterEs : composeLetter('es', settings.buyer, next.address),
         letterNote: '',
       }
     }
@@ -285,6 +287,7 @@ export function App() {
       letterEs: composeLetter('es', settings.buyer, current.address),
       letterSource: 'template',
       letterDirty: false,
+      letterDirtyEs: false,
       letterNote: '',
       updatedAt: Date.now(),
     })

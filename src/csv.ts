@@ -10,7 +10,9 @@ export const STATUS_LABEL: Record<LeadStatus, string> = {
 
 function cell(value: string | number | null | undefined): string {
   if (value === null || value === undefined) return ''
-  const text = String(value)
+  let text = String(value)
+  // Text that starts like a formula would run in Excel or Sheets. Numbers (like a negative longitude) are left alone.
+  if (typeof value === 'string' && /^[=+\-@\t\r]/.test(text)) text = `'${text}`
   if (/[",\n\r]/.test(text)) return `"${text.replace(/"/g, '""')}"`
   return text
 }
